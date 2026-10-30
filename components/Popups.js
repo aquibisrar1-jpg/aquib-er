@@ -249,6 +249,10 @@ Sitemap: linkedin.com/in/aquibisrar`}</div>
               <li key={id}><a href={`#${id}`} onClick={() => setStartOpen(false)}>{i} {t}</a></li>
             ))}
             <li><a href="/Aquib_Israr_CV.pdf" download onClick={() => setStartOpen(false)}>📄 CV.pdf</a></li>
+            <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new CustomEvent("aq-vision", { detail: "googlebot" })); }}>👁️ Googlebot Vision</a></li>
+            <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new CustomEvent("aq-vision", { detail: "chatgpt" })); }}>✦ ChatGPT Vision</a></li>
+            <li><a href="#indexing" onClick={() => setStartOpen(false)}>🔍 Index my CV</a></li>
+            <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new Event("aq-blackhat")); }}>😈 Black Hat Mode</a></li>
           </ul>
         </div>
       )}

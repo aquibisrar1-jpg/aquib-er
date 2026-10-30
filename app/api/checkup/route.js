@@ -391,6 +391,16 @@ export async function GET(req) {
       checks,
       ai,
       schemaTypes: typeList,
+      meta: {
+        description: desc,
+        siteName: $('meta[property="og:site_name"]').attr("content")?.trim() || "",
+        ogImage: $('meta[property="og:image"]').attr("content")?.trim() || "",
+        lang: lang || "",
+        canonical: canonical || "",
+        logo: $('link[rel~="icon"]').attr("href") || "",
+        sitemaps: robotsParsed.sitemaps.slice(0, 3),
+        hasRobots: robots.status === 200,
+      },
       checkedAt: new Date().toISOString(),
     },
     { headers: { "cache-control": "s-maxage=600, stale-while-revalidate=3600" } }

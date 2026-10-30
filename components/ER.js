@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { beep } from "./sound";
+import { openPrescription } from "./prescription";
+import { toast } from "./Popups";
 
 const LOADING = [
   "C:\\> CONNECTING AT 56K...",
@@ -129,6 +131,7 @@ export default function ER() {
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", marginTop: 12 }}>
               <small style={{ font: "12px Arial", maxWidth: 360 }}>Homepage only, from outside, in about 3 seconds. The real treatment covers render parity, cannibalization, index bloat, entities and AI citation share.</small>
+              <button type="button" className="gbtn yellow small" onClick={() => { beep("coin"); if (!openPrescription(data)) toast("Your browser blocked the popup. Allow popups for this site and try again."); }}>🖨️ PRINT PRESCRIPTION</button>
               <a className="gbtn pink small" href={`mailto:aquibisrar1@gmail.com?subject=${encodeURIComponent(`My site is in the ER: ${data.host} (${data.score}/100)`)}&body=${encodeURIComponent(`Hi Aquib,\n\nYour ER gave ${data.host} a ${data.score}/100. Let's talk.\n\n`)}`}>BOOK DR. AQUIB →</a>
             </div>
           </div>

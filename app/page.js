@@ -5,6 +5,10 @@ import CoreUpdate from "../components/CoreUpdate";
 import RaccoonHunt from "../components/RaccoonHunt";
 import Popups, { toast, openWin } from "../components/Popups";
 import { beep } from "../components/sound";
+import Vision, { setVision } from "../components/Vision";
+import BlackHat, { blackHat } from "../components/BlackHat";
+import IndexCV from "../components/IndexCV";
+import HireDialog from "../components/HireDialog";
 
 const EMAIL = "aquibisrar1@gmail.com";
 const LINKEDIN = "https://www.linkedin.com/in/aquibisrar/";
@@ -117,7 +121,11 @@ export default function Home() {
           <a href="#proof">Proof??</a>
           <a href="#faq">Who did this??</a>
         </nav>
-        <a className="gbtn small" href={CV} download>MY CV!!! ↓</a>
+        <div className="hdr-btns">
+          <button className="gbtn small yellow" onClick={() => setVision("googlebot")} title="See this page the way Google does">👁️ GOOGLEBOT VISION</button>
+          <button className="gbtn small blue" onClick={() => setVision("chatgpt")} title="Summarise this page like an AI Overview">✦ CHATGPT VISION</button>
+          <a className="gbtn small" href={CV} download>MY CV!!! ↓</a>
+        </div>
       </header>
 
       {/* ============ HERO ============ */}
@@ -366,6 +374,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ INDEX MY CV ============ */}
+      <section className="panel stripes-pink" id="indexing">
+        <div className="panel-in">
+          <div className="bar-label"><span>📄 CV INDEXING DEPARTMENT</span><i>EVERY SEO HAS LIVED THIS</i></div>
+          <h2 className="sec-title impact-stack"><span className="r">PLEASE INDEX</span> <span className="y">MY CV.</span></h2>
+          <p className="sec-sub">Google hasn&apos;t indexed it yet. Maybe you can help. Click until it works (that&apos;s the SEO experience).</p>
+          <IndexCV />
+        </div>
+      </section>
+
       {/* ============ FAQ ============ */}
       <section className="panel stripes-cyan" id="faq">
         <div className="panel-in">
@@ -390,15 +408,19 @@ export default function Home() {
           <a className="gbtn pink" href={CV} download>CV.PDF ↓</a>
         </div>
         <p className="times" style={{ marginTop: 18 }}>{EMAIL} · Delhi NCR</p>
+        <div style={{ marginTop: 30 }}><HireDialog /></div>
       </section>
 
       <footer className="footer">
         <div>done by Aquib © 2018–2026* · <a href="#top">Return to position #1</a> · <a href="#" onClick={(e) => { e.preventDefault(); toast("Unsubscribed from good rankings. Bold move."); }}>Unsubscribe from good rankings</a></div>
         <div style={{ fontSize: 11, marginTop: 4 }}>*indexed eventually. Best viewed in Netscape Navigator at 800×600.</div>
+        <div style={{ marginTop: 8 }}><button className="bh-link" onClick={() => blackHat()}>😈 rank faster (do not click)</button></div>
         <div className="webring">[ <a href="#top">◀ prev</a> | <a href="#er">SEO Doctors Webring</a> | <a href="#hire">next ▶</a> ]</div>
       </footer>
 
       <Popups />
+      <Vision />
+      <BlackHat />
     </>
   );
 }

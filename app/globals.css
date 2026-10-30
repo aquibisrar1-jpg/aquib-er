@@ -386,3 +386,119 @@ h1, h2, h3, h4, p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* =========================================================
+   NEW FEATURES: visions, black hat, index my CV, hire dialog
+   ========================================================= */
+.hdr-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.bh-link { background: none; border: 0; color: #444; font: 11px "Times New Roman", serif; text-decoration: underline; padding: 0; }
+.bh-link:hover { color: #f00; }
+
+/* confetti */
+.confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 120; overflow: hidden; }
+.confetti-layer span { position: absolute; top: -50px; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
+
+/* ---- Googlebot Vision ---- */
+.gbot-only { display: none; }
+html.gbot body { background: #fff !important; padding: 70px 18px 20px !important; }
+html.gbot body *:not(.keep):not(.keep *) {
+  background: transparent !important; color: #000 !important; font-family: "Times New Roman", Times, serif !important;
+  font-size: 16px !important; font-weight: normal !important; font-style: normal !important; line-height: 1.45 !important;
+  box-shadow: none !important; text-shadow: none !important; border: 0 !important; outline: 0 !important; transform: none !important;
+  animation: none !important; filter: none !important; -webkit-text-stroke: 0 !important; border-radius: 0 !important;
+  position: static !important; width: auto !important; height: auto !important; min-height: 0 !important; max-height: none !important;
+  padding: 0 !important; margin: 0 0 4px !important; -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  text-transform: none !important; letter-spacing: normal !important; grid-template-columns: 1fr !important; overflow: visible !important; opacity: 1 !important;
+}
+html.gbot body h1:not(.keep *), html.gbot body h2:not(.keep *), html.gbot body h3:not(.keep *), html.gbot body h4:not(.keep *) { font-weight: bold !important; margin-top: 14px !important; }
+html.gbot body h1::before { content: "<h1> "; color: #c00; font: bold 12px "Courier New", monospace; }
+html.gbot body h2::before { content: "<h2> "; color: #c00; font: bold 12px "Courier New", monospace; }
+html.gbot body h3::before { content: "<h3> "; color: #c00; font: bold 12px "Courier New", monospace; }
+html.gbot body h4::before { content: "<h4> "; color: #c00; font: bold 12px "Courier New", monospace; }
+html.gbot body a:not(.keep *) { color: #00e !important; text-decoration: underline !important; }
+html.gbot body button:not(.keep *)::before { content: "[button] "; color: #888; font: 11px "Courier New", monospace; }
+html.gbot .taskbar, html.gbot .pop, html.gbot .helper, html.gbot .toast98, html.gbot .startmenu, html.gbot .serpflix,
+html.gbot .floaty, html.gbot .sticker-r, html.gbot .ekg, html.gbot .graph98 svg, html.gbot .confetti-layer { display: none !important; }
+html.gbot .gbot-only { display: block; }
+.gbot-only.keep { background: #000; color: #39ff14; font: 13px/1.45 "Courier New", monospace; padding: 14px; white-space: pre-wrap; border: 3px dashed #39ff14; margin: 0 0 18px; }
+.vb { position: fixed; top: 0; left: 0; right: 0; z-index: 130; background: #000; color: #ff0; border-bottom: 4px solid #ff0; font: 14px "Courier New", monospace; }
+.vb-in { max-width: 1100px; margin: 0 auto; padding: 8px 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.vb-stats { color: #39ff14; font-size: 12px; }
+.vb button { margin-left: auto; background: #ff0; color: #000; border: 3px outset #fff; font: bold 13px "Comic Sans MS", "Comic Neue", cursive; padding: 4px 10px; }
+
+/* ---- ChatGPT Vision ---- */
+.cgv { position: fixed; inset: 0; z-index: 130; background: rgba(0,0,0,.55); display: grid; place-items: center; padding: 16px; }
+.cgv-card { background: #fff; width: min(680px, 100%); max-height: 88vh; overflow: auto; border-radius: 18px; padding: 20px 22px; font-family: Arial, Helvetica, sans-serif; color: #202124; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+.cgv-head { display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 15px; color: #444; }
+.cgv-head button { background: none; border: 0; font-size: 20px; }
+.cgv-q { border: 1px solid #ddd; border-radius: 24px; padding: 10px 16px; margin: 12px 0; font-size: 15px; }
+.cgv-body { background: linear-gradient(135deg, #eef3fe, #f6efff); border-radius: 14px; padding: 16px; font-size: 16px; line-height: 1.6; min-height: 120px; }
+.cite { display: inline-grid; place-items: center; min-width: 20px; height: 20px; border-radius: 10px; background: #dfe6f7; border: 0; font: bold 11px Arial; color: #1a3d8f; padding: 0 5px; vertical-align: 2px; }
+.cite:hover { background: #1a3d8f; color: #fff; }
+.cgv-src { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.cgv-src button { border: 1px solid #ddd; background: #fafafa; border-radius: 10px; padding: 6px 10px; font: 13px Arial; }
+.cgv-src button b { color: #1a3d8f; margin-right: 4px; }
+.cgv-note { margin-top: 12px; font-size: 12px; color: #666; }
+
+/* ---- Black Hat Mode ---- */
+html.blackhat body { animation: shake .25s linear 6; }
+.spam-layer { position: fixed; inset: 0; z-index: 97; pointer-events: none; overflow: hidden; }
+.spam-layer > span { position: absolute; font: bold 14px "Comic Sans MS", "Comic Neue", cursive; text-decoration: underline; white-space: nowrap; text-shadow: 1px 1px #000; }
+.spam-banner { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: red; color: #ff0; font: bold 20px Impact, Anton, sans-serif; padding: 8px 16px; border: 4px ridge #ff0; white-space: nowrap; max-width: 96vw; overflow: hidden; }
+.spam-rank { position: fixed; top: 45%; left: 50%; transform: translate(-50%, -50%); background: #000; color: #39ff14; font: 52px Impact, Anton, sans-serif; padding: 10px 24px; border: 6px ridge #39ff14; white-space: nowrap; }
+.spam-hidden { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: #fff; color: #f4f4f4; font: 14px Arial; padding: 8px; border: 2px dashed #ccc; max-width: 90vw; }
+.gsc { position: fixed; inset: 0; z-index: 98; background: #fff; font-family: Arial, Helvetica, sans-serif; color: #202124; display: flex; flex-direction: column; animation: pop .25s; }
+.gsc-top { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid #ddd; font-size: 18px; }
+.gsc-top small { color: #999; font-size: 11px; }
+.gsc-main { display: flex; flex: 1; overflow: auto; }
+.gsc-side { width: 210px; border-right: 1px solid #eee; padding: 10px 0; font-size: 14px; flex: none; }
+.gsc-side div { padding: 9px 20px; color: #444; }
+.gsc-side .on { background: #e8f0fe; color: #1a56c8; font-weight: bold; border-radius: 0 20px 20px 0; }
+.gsc-content { padding: 24px 28px; max-width: 780px; }
+.gsc-content h2 { font-size: 24px; font-weight: normal; margin-bottom: 14px; }
+.gsc-alert { background: #fce8e6; color: #a50e0e; padding: 12px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 14px; }
+.gsc-row { display: flex; justify-content: space-between; gap: 16px; border: 1px solid #eee; border-radius: 6px; padding: 12px 14px; margin-bottom: 8px; font-size: 14px; }
+.gsc-row small { color: #666; }
+.gsc-moral { background: #fff8c5; border-left: 4px solid #f2b600; padding: 10px 12px; margin: 16px 0; font-size: 14px; }
+.gsc-btn { background: #1a56c8; color: #fff; border: 0; border-radius: 4px; padding: 10px 18px; font: bold 14px Arial; letter-spacing: .3px; }
+.gsc-btn:disabled { background: #8aa7de; }
+.gsc textarea { width: 100%; font: 14px Arial; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 12px; }
+
+/* ---- Index my CV ---- */
+.gscard { background: #fff; max-width: 720px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.25), 8px 8px 0 #000; font-family: Arial, Helvetica, sans-serif; color: #202124; overflow: hidden; border: 2px solid #000; }
+.gscard-top { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #e0e0e0; flex-wrap: wrap; }
+.gscard-url { flex: 1; font-size: 14px; background: #f1f3f4; border-radius: 20px; padding: 7px 14px; word-break: break-all; min-width: 200px; }
+.gscard-tag { font-size: 11px; color: #888; }
+.gscard-status { padding: 16px 18px; border-bottom: 1px solid #eee; }
+.gscard-status .big { font-size: 22px; }
+.gscard-status .sub { font-size: 14px; margin-top: 4px; color: #555; }
+.gscard-status.grey { background: #f1f3f4; }
+.gscard-status.amber { background: #fef7e0; }
+.gscard-status.red { background: #fce8e6; }
+.gscard-status.green { background: #e6f4ea; }
+.gscard-status.green .big { color: #137333; }
+.gscard-body { padding: 16px 18px; position: relative; }
+.gscard-body p { font-size: 15px; margin-bottom: 12px; }
+.gscard-body table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 14px; }
+.gscard-body td { border-bottom: 1px solid #eee; padding: 7px 4px; }
+.gscard-body td:first-child { color: #666; width: 40%; }
+.gscard-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.gscard-spin { height: 4px; background: #e0e0e0; overflow: hidden; margin-top: 12px; }
+.gscard-spin i { display: block; height: 100%; width: 40%; background: #1a56c8; animation: slide 1s linear infinite; }
+@keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+
+/* ---- Hire dialog ---- */
+.hire98 { max-width: 440px; margin: 0 auto; text-align: left; }
+.hire-area { position: relative; height: 150px; margin-top: 10px; background: #fff; border: 2px solid; border-color: #404040 #fff #fff #404040; }
+.hire-yes { position: absolute; left: 20px; top: 50px; }
+.hire-no { position: absolute; right: 30px; top: 58px; transition: left .15s, top .15s; white-space: nowrap; }
+.hire-gone { position: absolute; right: 18px; top: 62px; font: 12px "Courier New", monospace; color: #c00; }
+
+@media (max-width: 640px) {
+  .gsc-side { display: none; }
+  .gsc-content { padding: 18px 14px; }
+  .spam-rank { font-size: 32px; }
+  .hdr-btns .gbtn { font-size: 12px; padding: 6px 9px; }
+  .vb-in { font-size: 12px; }
+}
