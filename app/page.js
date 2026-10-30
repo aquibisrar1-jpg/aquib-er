@@ -1,10 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ER from "../components/ER";
 import CoreUpdate from "../components/CoreUpdate";
 import RaccoonHunt from "../components/RaccoonHunt";
 import Popups, { toast, openWin } from "../components/Popups";
-import { Raccoon, StormCloud } from "../components/Mascots";
 import { beep } from "../components/sound";
 
 const EMAIL = "aquibisrar1@gmail.com";
@@ -12,398 +11,391 @@ const LINKEDIN = "https://www.linkedin.com/in/aquibisrar/";
 const CV = "/Aquib_Israr_CV.pdf";
 
 const STATS = [
-  { n: "~5,000", l: "leads a year from organic at AND Academy" },
-  { n: "300+", l: "applications (5–6% lead → application)" },
-  { n: "~200", l: "enrollments a year (~65% admission rate)" },
-  { n: "~₹2 Cr", l: "annual revenue on the organic engine" },
-  { n: "+86%", l: "monthly impressions, 5.07M → 9.42M (GSC)" },
-  { n: "23 → 10", l: "average position. Page 4 → top 10 on money terms" },
-  { n: "2.4×", l: "blog library, 200 → 480 pages, without index bloat" },
-  { n: "~⅕", l: "of organic conversions now from the GEO program I built" },
+  ["~5,000", "leads a year from organic at AND Academy"],
+  ["300+", "applications a year (5–6% lead → application)"],
+  ["~200", "enrollments a year (~65% admission rate)"],
+  ["~₹2 Cr", "annual revenue riding on the organic engine"],
+  ["+86%", "monthly impressions in GSC, 5.07M → 9.42M"],
+  ["23 → 10", "average position. Money terms from page 4 into the top 10"],
+  ["2.4×", "blog library, 200 → 480 pages, without index bloat"],
+  ["~⅕", "of organic conversions now come from the GEO program I built"],
 ];
 
 const LOG = [
-  {
-    d: "2026-08 → now", s: "200", cls: "s200", path: "GET /udit (formerly IIAD) · Assistant Manager, SEO",
-    b: ["Lead SEO + GEO for UDIT: organic growth and AI visibility across ChatGPT, Perplexity and AI Overviews", "Running the IIAD → UDIT domain + content migration end to end: blog consolidation, cannibalization audits, redirect maps", "E-E-A-T enrichment and Helpful Content compliance across course and blog templates"],
-  },
-  {
-    d: "2025-01 → 2026-07", s: "200", cls: "s200", path: "GET /and-academy (IIAD × Kingston School of Art) · Assistant Manager, SEO",
-    b: ["Owned the full-funnel organic engine: ~5,000 leads → 300+ applications → ~200 enrollments a year", "Led the Dec 2025 Core Update recovery (see: the incident above)", "Built GEO from zero, a layered schema framework, a custom GSC MCP server and an 11-module Looker Studio stack", "Led a 5-person content + SEO team plus an external agency, and fed search data into Google Ads decisions"],
-  },
-  {
-    d: "2021-11 → 2024-12", s: "301", cls: "s301", path: "GET /yujji (DCOIL EdTech) · Senior Exec → Assistant Manager, SEO",
-    b: ["301 Moved Permanently: promoted after two years", "Top-3 rankings 6 → 18; organic sessions +38% QoQ; new users +31%", "Guest-lecture pipeline: 50+ talks in 6 months, ~300 qualified leads, 15 partner MoUs", "Reddit ambassador programme for organic backlinks"],
-  },
-  {
-    d: "2018-10 → 2020-11", s: "410", cls: "s410", path: "GET /starmass · SEO & Content Marketing Executive",
-    b: ["Keyword + intent research and a localised content strategy for the Saudi Arabian market", "Off-page outreach; publications on Springer- and Scimago-indexed platforms", "410 Gone: the company has since shut down. Unrelated. Probably."],
-  },
-  {
-    d: "2018-02 → 2018-07", s: "410", cls: "s410", path: "GET /the-policy-times · SEO Content Writer",
-    b: ["Wrote on politics, economics and policy for a national publication; keyword research before every brief", "410 Gone: also shut down later. Aquib has relieving letters, and an alibi."],
-  },
-  {
-    d: "2012 → 2018", s: "102", cls: "s102", path: "GET /jamia-millia-islamia · B.Sc Chemistry, then M.A. Media & Governance",
-    b: ["102 Processing: chemistry → media → search. The search engine is just a very large reaction."],
-  },
+  ["2026-08 → now", "200", "s200", "GET /udit (formerly IIAD)  Assistant Manager, SEO", "Lead SEO + GEO. Running the IIAD → UDIT domain + content migration end to end: blog consolidation, cannibalization audits, redirect maps. E-E-A-T across course + blog templates."],
+  ["2025-01 → 2026-07", "200", "s200", "GET /and-academy  Assistant Manager, SEO", "Owned the full-funnel organic engine (~5,000 leads → 300+ applications → ~200 enrollments a year). Led the Dec 2025 Core Update recovery. Built GEO from zero, a layered schema framework, a custom GSC MCP server and an 11-module Looker Studio stack. Led a 5-person team + an agency."],
+  ["2021-11 → 2024-12", "301", "s301", "GET /yujji  Senior Exec → Assistant Manager, SEO", "301 Moved Permanently: promoted after two years. Top-3 rankings 6 → 18. Organic sessions +38% QoQ. Guest-lecture pipeline: 50+ talks, ~300 qualified leads, 15 MoUs."],
+  ["2018-10 → 2020-11", "410", "s410", "GET /starmass  SEO & Content Marketing Executive", "Keyword + intent research for the Saudi market, localised content, outreach, Springer/Scimago publications. 410 Gone: the company has since shut down. Unrelated. Probably."],
+  ["2018-02 → 2018-07", "410", "s410", "GET /the-policy-times  SEO Content Writer", "Politics, economics and policy, keyword-researched. 410 Gone: also shut down later. Aquib has relieving letters, and an alibi."],
+  ["2012 → 2018", "102", "s102", "GET /jamia-millia-islamia  B.Sc Chemistry → M.A. Media & Governance", "102 Processing: chemistry → media → search. A search engine is just a very large reaction."],
 ];
 
 const RESEARCH = [
-  { tab: "PRESS", t: "Crawler-identification research", d: "Original research featured by PPC Land (June 2026) and cited by Havas Media Germany's Director of Programmatic Marketing." },
-  { tab: "AI MODE", t: "Google AI Mode hides its citations", d: "Reverse-engineered how AI Mode tucks citations into HTML comments as UUID-linked passages, invisible to link parsers and commercial AI-visibility tools." },
-  { tab: "GSC", t: "Vernacular demand, hiding in plain sight", d: "A Unicode regex technique in Search Console (\\p{Script} classes) that surfaces Hindi and other-script demand buried in long-tail queries." },
-  { tab: "CHATGPT", t: "Citations ≠ recommendations", d: "Analysed ChatGPT network traffic to separate search-grounded citations from ungrounded, model-trained recommendations." },
-  { tab: "LAB", t: "Controlled GEO citation experiment", d: "Three sites isolating one variable (listicle vs prose vs schema) to see what actually gets cited by ChatGPT, Perplexity and Claude." },
+  ["📰", "PRESS", "Crawler-identification research", "Featured by PPC Land (June 2026) and cited by Havas Media Germany's Director of Programmatic Marketing."],
+  ["🕵️", "AI MODE", "AI Mode hides its citations", "Reverse-engineered how Google AI Mode tucks citations into HTML comments as UUID-linked passages, invisible to link parsers and paid AI-visibility tools."],
+  ["🔤", "GSC", "Vernacular demand, hiding", "A Unicode regex trick in Search Console (\\p{Script} classes) that surfaces Hindi and other-script demand buried in long-tail queries."],
+  ["🤖", "CHATGPT", "Citations ≠ recommendations", "Analysed ChatGPT network traffic to separate search-grounded citations from model-trained recommendations."],
+  ["🧪", "LAB", "Controlled GEO experiment", "Three sites, one variable (listicle vs prose vs schema), to see what actually gets cited by ChatGPT, Perplexity and Claude."],
 ];
 
 const BUILDS = [
-  { t: "Atlas SEO Chrome Extension", d: "Manifest V3, zero-API, client-side audits: JSON-LD linting, JS render analysis, entity-gap checks. Replaces four to five paid tools.", b: "INSTALL (not public yet)" },
-  { t: "Custom GSC MCP Server", d: "Programmatic Search Console access so an AI agent can watch queries and pages, and flag cannibalization and decay without manual pulls.", b: "QUERY SOMETHING" },
-  { t: "Semantic Analysis Pipeline", d: "Screaming Frog + Gemma embeddings → cosine similarity for topic clustering, cannibalization detection and content-gap maps.", b: "EMBED ME" },
-  { t: "Pruning & Consolidation Engine", d: "Pre/post Core Update GSC comparison with a Recovery Priority Score. Triaged 1,000+ URLs into keep, merge, redirect or delete.", b: "PRUNE THIS BUTTON" },
-  { t: "E-E-A-T Enrichment Framework", d: "Three-pass Delete / Add / Edit audit (Excel + Word playbook) aligned to Google's Helpful Content System. Bylines, reviewers, Person schema.", b: "ADD AUTHOR BIO" },
-  { t: "Link-bait micro tools", d: "Font pairing, colour contrast, aspect ratio and brand-palette builders on the blog, to lift engagement and earn natural links. Also: this website.", b: "PAIR A FONT" },
+  ["atlas_seo_extension.crx", "Manifest V3, zero-API, client-side audits: JSON-LD linting, JS render analysis, entity gaps. Replaces 4–5 paid tools.", "proprietary"],
+  ["gsc_mcp_server.zip", "Custom Google Search Console MCP server. Lets an AI agent watch queries and pages and flag cannibalization and decay.", "in use"],
+  ["semantic_pipeline.py", "Screaming Frog + Gemma embeddings → cosine similarity for topic clusters, cannibalization and content gaps.", "in use"],
+  ["pruning_engine.xls", "Pre/post Core Update comparison with a Recovery Priority Score. Triaged 1,000+ URLs: keep, merge, redirect, delete.", "battle-tested"],
+  ["eeat_framework.doc", "Three-pass Delete / Add / Edit audit aligned to Google's Helpful Content System. Bylines, reviewers, Person schema.", "battle-tested"],
+  ["linkbait_tools.html", "Font pairing, colour contrast, aspect ratio and palette builders on the blog to earn natural links. Also: this website.", "you are here"],
 ];
 
 const FAQ = [
-  ["Is the Emergency Room real?", "Yes. When you hit Admit, a serverless function fetches that site's homepage, robots.txt, sitemap and llms.txt live, then runs 19 checks. Nothing is stored. It's the homepage only, so think of it as triage, not surgery."],
-  ["Why a raccoon?", "AI Overviews and answer engines read your content, summarise it, and often keep the click. Small, clever, gets into everything. The job now is making it cite you instead."],
-  ["Is the Core Update story real?", "Very. December 2025, AND Academy. Three root causes: index bloat (442 URLs flagged out of 1,000+), 482 cannibalized queries, and a server-level cloaking breach on a partner domain. Declining pages recovered 20–30%."],
-  ["Does he only do SEO?", "SEO, GEO and AEO, plus the bits that make them pay: lead → application → enrollment tracking, landing-page structure, and feeding search-term data into Google Ads keywords and negatives. He's led a 5-person team and managed an agency."],
+  ["Is the Emergency Room real?", "Yes. A serverless function fetches that site's homepage, robots.txt, sitemap and llms.txt live and runs 19 checks. Nothing is stored. Homepage only, so it's triage, not surgery."],
+  ["Why a raccoon?", "AI Overviews read your content, summarise it, and keep the click. Small, clever, gets into everything. The job now is making it cite you."],
+  ["Is the Core Update story real?", "Very. December 2025, AND Academy. Index bloat (442 URLs flagged), 482 cannibalized queries, and a server-level cloaking breach on a partner domain. Declining pages recovered 20–30%."],
+  ["Does he only do SEO?", "SEO, GEO and AEO, plus the bits that make them pay: lead → application → enrollment tracking, landing pages, and search data fed into Google Ads keywords and negatives. Has led a 5-person team and managed an agency."],
   ["Who is responsible for the fonts?", "Aquib. He is sorry. He is not sorry."],
   ["Will he fix my site for free?", "He just did, a little, up there. The rest comes with a job title."],
-  ["Is he available?", "Currently Assistant Manager, SEO at UDIT, based in Delhi NCR. Open to the right role. The calendar invite is still pending, by the way."],
+  ["Is he available?", "Currently Assistant Manager, SEO at UDIT, Delhi NCR. Open to the right role. The meeting request is still pending, by the way."],
 ];
 
 export default function Home() {
+  const [count, setCount] = useState(404404);
+  const [paused, setPaused] = useState(false);
   const [notBot, setNotBot] = useState(false);
-  const [dl, setDl] = useState(null); // null | number
+  const [dl, setDl] = useState(null);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setCount((c) => c + Math.ceil(Math.random() * 7)), 900);
+    return () => clearInterval(id);
+  }, [paused]);
+
+  useEffect(() => {
+    document.body.style.animationPlayState = paused ? "paused" : "";
+    document.querySelectorAll(".ticker span, .marq span, .blink, .bob, .spin").forEach((el) => (el.style.animationPlayState = paused ? "paused" : "running"));
+  }, [paused]);
 
   const fakeDownload = () => {
-    if (dl !== null) return;
+    if (dl !== null && dl < 100) return;
     beep("dialup");
     let p = 0;
     setDl(0);
     const id = setInterval(() => {
-      p = Math.min(99, p + Math.ceil(Math.random() * 14));
+      p = Math.min(99, p + Math.ceil(Math.random() * 12));
       setDl(p);
+      beep("tick");
       if (p >= 99) {
         clearInterval(id);
         setTimeout(() => {
-          toast("Stuck at 99%. Classic. Here's the actual PDF instead. 📄");
+          toast("Stuck at 99%. Classic. Here's the actual CV instead. 📄");
           const a = document.createElement("a");
-          a.href = CV;
-          a.download = "Aquib_Israr_SEO_CV.pdf";
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          setDl(100);
-        }, 1400);
+          a.href = CV; a.download = "Aquib_Israr_SEO_CV.pdf";
+          document.body.appendChild(a); a.click(); a.remove();
+          setDl(100); beep("coin");
+        }, 1500);
       }
-    }, 180);
+    }, 200);
   };
 
   return (
     <>
-      <div className="promo">
-        <div className="marquee">
-          ⚠ BREAKING: AQUIB HAS NOT BEEN HIRED BY YOU YET. THIS IS BEING TREATED AS A SITE-WIDE ISSUE ⚠ &nbsp;&nbsp;
-          <a href="#er">BRING YOUR WEBSITE TO THE ER (FREE, LIVE, SLIGHTLY RUDE)</a> &nbsp;&nbsp; ✦ NOW WITH 100% MORE RACCOON ✦ &nbsp;&nbsp;
-          CORE UPDATE SURVIVOR ✦ GEO BEFORE IT WAS COOL ✦ HAS OPINIONS ABOUT CANONICALS
-        </div>
+      <div className="beg">
+        <span>🔍 Google has still <u>NOT</u> ranked me #1 for &quot;hire SEO person&quot;. Email me so I feel indexed.</span>
+        <a href="#hire">HIRE AQUIB →</a>
+      </div>
+      <div className="ticker"><span>🔥 NEW!!! SEO THAT ACTUALLY ENDS IN LEADS ★ LESS INDEX BLOAT, MORE ENROLLMENTS ★ NOW WITH LIVE WEBSITE CHECKUPS ★ CORE UPDATE SURVIVOR ★ GEO BEFORE IT WAS COOL ★ HAS STRONG OPINIONS ABOUT CANONICAL TAGS ★ 🦝 RACCOON SIGHTED ON THIS PAGE ★</span></div>
+      <div className="webstats">
+        YOU ARE VISITOR <b className="counter">{String(count).padStart(9, "0").replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</b>
+        <small>(or maybe not, Aquib blocked his own analytics in robots.txt)</small>
+        <button onClick={() => setPaused((p) => !p)}>{paused ? "OK RESUME ▶" : "MAKE IT STOP ⏸"}</button>
       </div>
 
-      <nav className="nav">
-        <div className="wrap">
-          <a className="logo" href="#top">AQUIB.exe<sup>™®!!!</sup></a>
-          <div className="nav-links">
-            <a href="#er">the_ER.exe</a>
-            <a href="#incident">The Incident™</a>
-            <a href="#hunt">Raccoon!!!</a>
-            <a href="#proof">Proof (boring)</a>
-            <a href="#faq">Who did this??</a>
-          </div>
-          <a className="btn small blue" href={CV} download onClick={() => beep("click")}>REAL CV ↓</a>
-        </div>
-      </nav>
-
-      <header className="hero" id="top">
-        <div className="wrap hero-grid">
-          <div>
-            <span className="tag">SEO MANAGER · GEO &amp; AEO · 6+ YEARS · DELHI NCR</span>
-            <h1 className="display">
-              Your rankings <span className="strike">died</span> called.
-              <br />
-              They want <span className="hl">Aquib.</span>
-            </h1>
-            <p className="sub">
-              I&apos;m <b>Aquib Israr</b>. I turn organic search into leads and revenue, not vanity graphs. I survived a Google Core Update, built a GEO program from scratch, and now I chase an AI raccoon that steals clicks for a living.
-            </p>
-            <div className="ctas">
-              <a className="btn pink" href="#er" onClick={() => beep("click")}>🚑 DIAGNOSE MY SITE</a>
-              <a className="btn white" href="#hire" onClick={() => beep("click")}>JUST HIRE HIM</a>
-            </div>
-            <div className="captcha" onClick={() => { if (!notBot) { setNotBot(true); beep("win"); toast("Verified. Status: 200 OK. Welcome, human."); } }}>
-              <span className="chk" role="checkbox" aria-checked={notBot}>{notBot ? "✓" : ""}</span>
-              <span>I&apos;m not a 404<small>reCRAWLtcha · Privacy · Terms</small></span>
-            </div>
-          </div>
-
-          <div className="hero-art">
-            <span className="sticker" style={{ top: -22, left: -20, transform: "rotate(-8deg)" }}>about_page_FINAL_final_v7.html</span>
-            <span className="sticker" style={{ top: 120, right: -26, transform: "rotate(7deg)", background: "var(--yellow)" }}>noindex (oops)</span>
-            <div className="serp">
-              <div className="q">🔍 who should I hire to fix our SEO and AI visibility</div>
-              <div className="aio">
-                <div style={{ fontSize: 11, color: "#555", marginBottom: 4 }}>✦ AI Overview</div>
-                Based on several sources, the most sensible option is to <b>hire Aquib Israr</b>, an SEO manager who specialises in getting brands cited by answer engines like this one. <sup style={{ color: "#1a0dab" }}>[1]</sup>
-                <div style={{ fontSize: 11, color: "#777", marginTop: 6 }}>Note: this overview was optimised by the person it recommends.</div>
-              </div>
-              <div className="res me">
-                <div className="u">linkedin.com › in › aquibisrar</div>
-                <div className="t">Aquib Israr: SEO Manager | GEO &amp; AEO Specialist</div>
-                <div>Core Update survivor. ~5,000 leads/yr from organic. Has opinions about canonicals…</div>
-              </div>
-              <div className="res" style={{ opacity: 0.55 }}>
-                <div className="u">agency.example › packages</div>
-                <div className="t">12-Month SEO Retainer (You Get a PDF Monthly)</div>
-              </div>
-              <div className="res" style={{ opacity: 0.4 }}>
-                <div className="u">guru.example › blog</div>
-                <div className="t">Content Is King: 47 Tips From 2014</div>
-              </div>
-            </div>
-            <div className="raccoon-peek wobble"><Raccoon size={130} /></div>
-          </div>
-        </div>
+      <header className="site-header">
+        <a className="logo" href="#top">🔍 Aquib<sup>™®!!!</sup></a>
+        <nav>
+          <a href="#er">fix_my_site.exe</a>
+          <a href="#features">Features!!!</a>
+          <a href="#proof">Proof??</a>
+          <a href="#faq">Who did this??</a>
+        </nav>
+        <a className="gbtn small" href={CV} download>MY CV!!! ↓</a>
       </header>
 
-      <div className="strip"><div className="marquee fast">MORE CITATIONS • FEWER 404s • LESS INDEX BLOAT • MORE LEADS • ZERO VANITY METRICS • MORE CITATIONS • FEWER 404s • LESS INDEX BLOAT • MORE LEADS •</div></div>
+      {/* ============ HERO ============ */}
+      <section className="hero" id="top">
+        <span className="floaty bob" style={{ left: "8%", top: 70 }}>👻</span>
+        <span className="floaty bob" style={{ right: "9%", top: 60, animationDelay: ".6s" }}>💼</span>
+        <span className="floaty bob" style={{ left: "17%", bottom: 140, animationDelay: "1.2s" }}>🔥</span>
+        <span className="sticker-r spin" aria-hidden="true">📀</span>
 
-      {/* ---------------- ER ---------------- */}
-      <section className="sec" id="er">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker">🚑 Department of Emergency Search Medicine</div>
-            <h2 className="display">The SEO<br />Emergency Room</h2>
-            <p>Type your company&apos;s domain. Dr. Aquib checks the real site live: status, speed, redirects, title, meta, H1, canonical, schema, render-ability, robots.txt, sitemap, llms.txt, and whether you&apos;re accidentally blocking ChatGPT, Claude and Perplexity. Bedside manner not included.</p>
+        <div className="collage" aria-label="Meme collage: Googlebot in a tie has entered the chat">
+          <div className="impact" style={{ color: "#fff", fontSize: 16 }}>SEO HAS ENTERED THE CHAT</div>
+          <div className="scene">
+            <span style={{ fontSize: 70, left: 58, top: 24 }}>🕷️</span>
+            <span style={{ fontSize: 34, left: 76, top: 92 }}>👔</span>
+            <span style={{ fontSize: 30, left: 16, top: 40 }}>📞</span>
+            <span style={{ fontSize: 26, right: 10, top: 8 }}>💸</span>
+            <span style={{ fontSize: 26, left: 8, bottom: 6 }}>🔥</span>
+            <span style={{ fontSize: 26, right: 12, bottom: 8 }}>🐈</span>
           </div>
-          <ER />
+          <div className="cap">he found your missing traffic</div>
+          <div className="cap2">Fig. 1: Googlebot reviewing this website. Easily bribed with schema.</div>
         </div>
-      </section>
-
-      <div className="strip alt"><div className="marquee fast">⚡ WARNING: A CORE UPDATE HAS BEEN SPOTTED IN YOUR AREA ⚡ STAY INDOORS ⚡ DO NOT DELETE YOUR BLOG IN A PANIC ⚡ WARNING: A CORE UPDATE HAS BEEN SPOTTED ⚡</div></div>
-
-      {/* ---------------- Core update ---------------- */}
-      <section className="sec" id="incident">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker">Case file · AND Academy · Dec 2025</div>
-            <h2 className="display">The Core Update<br />Incident™</h2>
-            <p>Every SEO has a war story. Here&apos;s mine, as an interactive reenactment. Press the button. Watch the cloud. Feel the fear. Then watch the line go back up.</p>
-          </div>
-          <CoreUpdate />
+        <div className="stamp-round"><div>AI<br />READY<small>(robots.txt allows it)</small></div></div>
+        <div className="postit">
+          <div style={{ fontSize: 11 }}>about_page_FINAL_final_v7.html</div>
+          <div className="ghost">👻</div>
+          <div className="note">i&apos;ve been on page 4 since 2022</div>
         </div>
-      </section>
+        <div className="hire-diff wordart blue">HIRE<br />DIFFERENT!!!</div>
 
-      {/* ---------------- Raccoon hunt ---------------- */}
-      <section className="sec band-yellow" id="hunt">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker">Mini-game · GEO simulator 2026</div>
-            <h2 className="display">Catch the<br />AI Overview 🦝</h2>
-            <p>It reads your blog, summarises it, and keeps the click. Click the raccoon to win your traffic back. Every second it&apos;s on screen, it steals another one.</p>
-          </div>
-          <RaccoonHunt />
+        <div className="badge">⭐ #1 SEO PERSON IN THIS PARTICULAR TAB ⭐</div>
+        <h1>
+          <span className="l1">Bestest SEO™</span>
+          <span className="l2 wordart">Ranking Specialist</span>
+          <span className="l3">for Ranking-Hungry Teams</span>
+        </h1>
+        <p className="tagline">Rankings? It&apos;s done bhai.</p>
+        <div className="ctas">
+          <a className="gbtn" href="#er">✨ FIX MY RANKINGS ✨</a>
+          <a className="gbtn pink" href="#hire">TAKE ME TO REAL AQUIB ↗</a>
         </div>
-      </section>
-
-      {/* ---------------- Proof ---------------- */}
-      <section className="sec" id="proof">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker">The boring part (but real, and on the CV)</div>
-            <h2 className="display">Proof, Not<br />Vibes</h2>
-            <p>Traffic is nice. Leads, applications, enrollments and revenue are nicer. These are the numbers I get judged on, and I like it that way.</p>
-          </div>
-          <div className="stats">
-            {STATS.map((s) => (
-              <div className="stat" key={s.l}>
-                <div className="n">{s.n}</div>
-                <div className="l">{s.l}</div>
-              </div>
-            ))}
-          </div>
-
-          <h3 className="display" style={{ fontSize: 34, margin: "60px 0 16px" }}>career_access.log</h3>
-          <div className="logfile">
-            <div style={{ color: "#888", marginBottom: 8 }}># tail -f /var/log/aquib/career.log · click a line to expand</div>
-            {LOG.map((l) => (
-              <details key={l.path} open={l.s === "200" && l.d.includes("now")}>
-                <summary className="ln">
-                  <span style={{ color: "#888" }}>[{l.d}]</span>
-                  <span className={l.cls}>{l.s}</span>
-                  <span>{l.path}</span>
-                </summary>
-                <ul>{l.b.map((x) => <li key={x}>{x}</li>)}</ul>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Research ---------------- */}
-      <section className="sec band" id="research">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker" style={{ color: "var(--yellow)" }}>Declassified · Original research</div>
-            <h2 className="display">He Opened<br />The Network Tab</h2>
-            <p>Most people read SEO news. I do my own digging, and sometimes it ends up in the news.</p>
-          </div>
-          <div className="files" style={{ color: "var(--ink)" }}>
-            {RESEARCH.map((r) => (
-              <div className="file" key={r.t}>
-                <span className="tab">{r.tab}</span>
-                <div className="body">
-                  <h4>{r.t}</h4>
-                  <p>{r.d}</p>
-                  <div style={{ height: 26 }} />
-                  <span className="classified">DECLASSIFIED</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Builds ---------------- */}
-      <section className="sec" id="builds">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker">AQUIB HAS ADDED FEATURES · nobody asked · they were useful anyway</div>
-            <h2 className="display">Tools He Built<br />Instead of Buying</h2>
-            <p>When the paid tool can&apos;t do it, I build it. Each card has a completely unhelpful button, for authenticity.</p>
-          </div>
-          <div className="builds">
-            {BUILDS.map((b, i) => (
-              <div className="build" key={b.t}>
-                <div className="no">{String(i + 1).padStart(2, "0")}</div>
-                <h4>{b.t}</h4>
-                <p>{b.d}</p>
-                <button className="btn small white useless" onClick={() => { beep("error"); openWin("sorry"); }}>{b.b}</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Download ---------------- */}
-      <section className="sec band-pink">
-        <div className="wrap download">
-          <button className="exe" onClick={fakeDownload} aria-label="Download Aquib">
-            <div className="ico">.EXE</div>
-            <span>AQUIB_SEO_v6.0.exe</span>
-          </button>
-          <div>
-            <h2 className="display" style={{ fontSize: "clamp(34px,5vw,64px)", margin: "0 0 10px" }}>Why hire an agency when you can download a specialist?</h2>
-            <p style={{ margin: 0 }}>6+ years · 1 Core Update survived · 0 black-hat backlinks · Includes free GEO. Compatible with WordPress, HubSpot and Next.js. Requires: chai.</p>
-            {dl !== null && (
-              <>
-                <div className="progress"><div style={{ width: `${dl}%` }} /></div>
-                <div style={{ fontWeight: 700 }}>{dl < 99 ? `Installing Aquib… ${dl}%` : dl === 99 ? "99%… finalising canonical tags… (forever)" : "Done. It was a PDF all along."}</div>
-              </>
-            )}
-            {dl === null && <button className="btn" style={{ marginTop: 18 }} onClick={fakeDownload}>DOWNLOAD NOW (100% SAFE*)</button>}
-            <div style={{ fontSize: 12, marginTop: 10 }}>*it&apos;s my CV.</div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Reviews ---------------- */}
-      <section className="sec">
-        <div className="wrap" style={{ display: "grid", gap: 24 }}>
-          <div className="review box" style={{ padding: 24 }}>
-            <div style={{ fontSize: 60 }}>🕷️</div>
-            <div>
-              <div className="stars">★★★★★</div>
-              <p className="display" style={{ fontSize: 40, margin: "6px 0" }}>&quot;200 OK.&quot;</p>
-              <div style={{ fontSize: 13 }}>Googlebot, verified crawler · rendered the page and everything</div>
-            </div>
-          </div>
-          <div className="review box" style={{ padding: 24, background: "#f2f2f2" }}>
-            <Raccoon size={80} mood="caught" />
-            <div>
-              <div className="stars">★☆☆☆☆</div>
-              <p className="display" style={{ fontSize: 30, margin: "6px 0" }}>&quot;Made the site get cited. Now I have to send people there. Would not recommend.&quot;</p>
-              <div style={{ fontSize: 13 }}>The AI Overview raccoon · unverified · <a href="#hunt">I would like my clicks back</a></div>
-            </div>
-          </div>
-          <div className="review box" style={{ padding: 24, background: "#e9ebff" }}>
-            <StormCloud size={90} angry={false} />
-            <div>
-              <div className="stars">★★★☆☆</div>
-              <p className="display" style={{ fontSize: 30, margin: "6px 0" }}>&quot;I came, I saw, he recovered. Annoying.&quot;</p>
-              <div style={{ fontSize: 13 }}>The December 2025 Core Update · rolls out whenever it wants</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Letter ---------------- */}
-      <section className="sec band-yellow">
-        <div className="wrap">
-          <div className="letter">
-            <div className="hand">A message from Aquib</div>
-            <p>Hi, hiring manager.</p>
-            <p>You could have got a PDF. You still can (top right). But SEO is half evidence and half persuasion, so I made you something to poke at instead.</p>
-            <p>Under the raccoon: I care about the boring, load-bearing stuff. Render parity. Redirect maps that don&apos;t leak. Schema that parses. Content that answers the question first. And numbers that end in leads and revenue, not just impressions.</p>
-            <p>If your site went through the ER above and you winced a little, that&apos;s a good conversation to have.</p>
-            <p className="hand" style={{ fontSize: 22, marginBottom: 0 }}>— Aquib (SEO, GEO, AEO, and now apparently web dev)</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- FAQ ---------------- */}
-      <section className="sec" id="faq">
-        <div className="wrap">
-          <div className="sec-head">
-            <div className="kicker">FAQ</div>
-            <h2 className="display">Frequently Avoided<br />Questions</h2>
-          </div>
-          <div className="faq">
-            {FAQ.map(([q, a]) => (
-              <details key={q} onToggle={(e) => e.currentTarget.open && beep("click")}>
-                <summary>{q}</summary>
-                <p>{a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- Final CTA ---------------- */}
-      <section className="band-pink cta-final" id="hire">
-        <div className="wrap">
-          <div className="float" style={{ display: "inline-block" }}><Raccoon size={110} mood="caught" /></div>
-          <h2 className="display">Hire Aquib.<br />Jail the raccoon.</h2>
-          <p style={{ fontSize: 18, maxWidth: 640, margin: "0 auto" }}>Email gets the fastest reply. LinkedIn works too. The CV is a real PDF, not an .exe, I promise.</p>
-          <div className="ctas">
-            <a className="btn" href={`mailto:${EMAIL}?subject=${encodeURIComponent("Saw your SEO Emergency Room. Let's talk.")}`} onClick={() => beep("win")}>✉ {EMAIL}</a>
-            <a className="btn white" href={LINKEDIN} target="_blank" rel="noopener noreferrer">LINKEDIN →</a>
-            <a className="btn blue" href={CV} download>CV.PDF ↓</a>
-          </div>
-        </div>
-      </section>
-
-      <footer>
-        <div className="wrap">
-          <span>crawled, rendered &amp; indexed by Aquib © 2018–2026* &nbsp;·&nbsp; *indexed eventually</span>
-          <span>
-            <a href="#top">Return to position #1</a> &nbsp;·&nbsp;{" "}
-            <a href="#" onClick={(e) => { e.preventDefault(); toast("Unsubscribed from good rankings. Bold move."); }}>Unsubscribe from good rankings</a>
+        <div>
+          <span className="fakecheck" role="checkbox" aria-checked={notBot} tabIndex={0}
+            onClick={() => { if (!notBot) { setNotBot(true); beep("win"); toast("Verified. Status: 200 OK. Welcome, human."); } }}>
+            <span className="box">{notBot ? "✓" : ""}</span>
+            <span>Prove you are NOT a 404<small>reCRAWLtcha · Privacy · Terms</small></span>
           </span>
         </div>
+      </section>
+
+      <div className="construction"><div>🚧 THIS WEBSITE IS UNDER CONSTRUCTION, LIKE EVERY SITE MIGRATION EVER 🚧</div></div>
+      <div className="marq"><span>✶ MORE CITATIONS ✶ FEWER 404s ✶ LESS INDEX BLOAT ✶ MORE LEADS ✶ ZERO VANITY METRICS ✶ MORE CITATIONS ✶ FEWER 404s ✶ LESS INDEX BLOAT ✶ MORE LEADS ✶</span></div>
+
+      {/* ============ FEATURES ============ */}
+      <section className="panel stars" id="features" style={{ backgroundImage: "inherit" }}>
+        <div className="panel-in">
+          <h2 className="sec-title" style={{ color: "#ff3b00", textShadow: "3px 3px #ff0, 5px 5px #000" }}>Your SEO is broken. You know it.</h2>
+          <p className="sec-sub">Aquib fixes it with real™ search skills (6+ years, all startups, zero black hat)</p>
+          <div className="cards">
+            <div className="card c1">
+              <div className="art" style={{ background: "repeating-linear-gradient(45deg,#fff 0 12px,#fff9b0 12px 24px)" }}>
+                🐛<span className="chip" style={{ right: 10, bottom: 12, transform: "rotate(-6deg)" }}>FOUND IT.</span>
+              </div>
+              <div className="num">01 · TECHNICAL SEO</div>
+              <h3>Find the bugs before Google does.</h3>
+              <p>Render parity (is your content in the HTML, or only after JavaScript?), index bloat, redirect maps, cannibalization, schema that actually parses. The boring stuff that holds everything up.</p>
+              <button className="useless" onClick={() => openWin("sorry")}>unhelpful button</button>
+            </div>
+            <div className="card c2">
+              <div className="art" style={{ background: "#ff5fd0" }}>
+                <span className="chip" style={{ left: 12, top: 18, transform: "rotate(-5deg)" }}>is this site trustworthy?</span>
+                <span className="chip" style={{ right: 12, bottom: 18, transform: "rotate(4deg)", background: "#b8ff9a" }}>according to [1], yes 🔗</span>
+              </div>
+              <div className="num">02 · GEO + AEO</div>
+              <h3>Get cited by the robots.</h3>
+              <p>ChatGPT, Perplexity, Gemini, AI Overviews. Definition-first answers, layered schema, entity work and share-of-answers tracking, so the AI recommends you instead of summarising you.</p>
+              <button className="useless" onClick={() => openWin("sorry")}>unhelpful button</button>
+            </div>
+            <div className="card c3">
+              <div className="art" style={{ background: "#000", color: "#39ff14", font: "bold 16px 'Courier New'", flexDirection: "column" }}>
+                <div>traffic.exe → leads.exe</div><div>→ revenue.exe</div><div className="blink" style={{ color: "red" }}>● REC</div>
+              </div>
+              <div className="num">03 · GROWTH</div>
+              <h3>Traffic that pays rent.</h3>
+              <p>Tracked from query to lead to application to enrollment. At AND Academy that was ~5,000 leads, ~200 enrollments and ~₹2 Cr a year. Impressions are nice. Revenue is nicer.</p>
+              <button className="useless" onClick={() => openWin("sorry")}>unhelpful button</button>
+            </div>
+          </div>
+          <div className="blueband">LESS &quot;WE&apos;RE WORKING ON IT.&quot; MORE &quot;WE&apos;RE ON PAGE 1.&quot; 🚀</div>
+        </div>
+      </section>
+
+      {/* ============ ER ============ */}
+      <section className="panel stripes-pink" id="er">
+        <div className="panel-in">
+          <div className="bar-label"><span>🚑 THE SEO EMERGENCY ROOM™</span><i>BUILT BY AQUIB. TESTED ON YOUR WEBSITE.</i></div>
+          <div className="er-grid">
+            <div className="er-pitch">
+              <div className="vabt">VERY ADVANCED DOCTOR TECHNOLOGY.</div>
+              <h2 className="impact-stack"><span className="y">FIX</span><br /><span className="r">MY RANKINGS.</span></h2>
+              <div className="whitebox">Website feeling slow? Not ranking? Ignored by ChatGPT? Type your domain. Dr. Aquib will check the real site, live, and be rude about it.</div>
+              <ul>
+                <li>❤️ Pulse, speed &amp; redirect chains</li>
+                <li>🏷️ Title, meta, H1, canonical, lang</li>
+                <li>🧬 Schema (JSON-LD) &amp; Open Graph</li>
+                <li>👀 Is your copy in the HTML, or hiding behind JavaScript?</li>
+                <li>🤖 robots.txt vs GPTBot, ClaudeBot, PerplexityBot &amp; friends</li>
+                <li>🗺️ sitemap.xml &amp; llms.txt</li>
+              </ul>
+              <p style={{ font: "bold 13px 'Times New Roman'", marginTop: 10 }}>NO REFUNDS IF IT WORKS.</p>
+            </div>
+            <ER />
+          </div>
+        </div>
+      </section>
+
+      <div className="construction"><div>⚡ WARNING: A CORE UPDATE HAS BEEN SPOTTED IN YOUR AREA. DO NOT DELETE YOUR BLOG IN A PANIC ⚡</div></div>
+
+      {/* ============ CLICK SOMETHING ============ */}
+      <section className="panel stripes-cyan" id="click">
+        <div className="panel-in">
+          <div className="bar-label"><span>🦝 AQUIB HAS ADDED FEATURES</span><i>NO ONE ASKED HIM TO DO THIS</i></div>
+          <h2 className="cos impact-stack"><span className="r">COME ON.</span><br /><span className="r">CLICK SOMETHING.</span></h2>
+          <p style={{ background: "#ffef5c", border: "2px solid #000", display: "inline-block", padding: "4px 10px", font: "bold 15px 'Times New Roman'", marginBottom: 20 }}>Your SEO person should have war stories. Here are two, as video games.</p>
+          <div className="click-row">
+            <CoreUpdate />
+            <div id="raccoon"><RaccoonHunt /></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ DOWNLOAD ============ */}
+      <section className="wrap" style={{ marginTop: 10 }}>
+        <div className="win98 yellowwin">
+          <div className="tbar"><span>internet_download_centre.html</span><span style={{ font: "bold 11px Arial" }}>VERY SAFE. MANY GREEN BUTTONS.</span></div>
+          <div className="wbody dlc">
+            <div>
+              <h2>Why hire an agency<br />when you can download a specialist?</h2>
+              <p style={{ font: "14px 'Times New Roman'", marginTop: 6 }}>6+ years · 1 Core Update survived · 0 black-hat backlinks · Requires: chai.</p>
+              {dl !== null && (
+                <div className="dlprog">
+                  <div className="progress98" style={{ maxWidth: 420 }}>{Array.from({ length: Math.round((dl / 100) * 26) }).map((_, i) => <i key={i} />)}</div>
+                  <p style={{ font: "bold 13px Arial", marginTop: 6 }}>{dl < 99 ? `Installing Aquib… ${dl}%` : dl === 99 ? "99%… finalising canonical tags… (forever)" : "Done. It was a PDF all along."}</p>
+                </div>
+              )}
+            </div>
+            <button className="gbtn" onClick={fakeDownload}>↓ DOWNLOAD<br />QUALIFIED_SEO.exe</button>
+          </div>
+        </div>
+
+        <div className="review">
+          <span className="lab">ONE COMPLETELY UNHELPFUL REVIEW</span>
+          <div className="q">“200.”</div>
+          <div className="who">— Googlebot. Verified crawler. Rendered the page. Refused to elaborate.</div>
+        </div>
+
+        <div className="unsub">
+          <b>Unsubscribe from &quot;content is king&quot;.</b>
+          <a href="#hire" style={{ fontFamily: "'Comic Sans MS', 'Comic Neue'", fontWeight: "bold" }}>I would like actual rankings please →</a>
+        </div>
+      </section>
+
+      {/* ============ PROOF ============ */}
+      <section className="panel stripes-lime" id="proof">
+        <div className="panel-in">
+          <div className="bar-label"><span>📊 THE BORING PART</span><i>(BUT REAL, AND ON THE CV)</i></div>
+          <h2 className="sec-title wordart green">Proof, Not Vibes</h2>
+          <p className="sec-sub">Traffic is nice. Leads, enrollments and revenue are nicer. <span className="newgif">NEW!</span></p>
+          <table className="guestbook">
+            <tbody>
+              {Array.from({ length: STATS.length / 2 }).map((_, r) => (
+                <tr key={r}>
+                  {STATS.slice(r * 2, r * 2 + 2).map(([n, l]) => [<td key={n} className="n">{n}</td>, <td key={l} className="l">{l}</td>])}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="win98 notepad" style={{ marginTop: 28 }}>
+            <div className="tbar"><span>📝 career_access.log - Notepad</span><span className="tb-btns"><span>_</span><span>□</span><span>✕</span></span></div>
+            <div className="menubar"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>S</u>earch</span><span><u>H</u>elp</span></div>
+            <div className="wbody">
+              <div className="inset">
+                {"# tail -f /var/log/aquib/career.log\n\n"}
+                {LOG.map(([d, s, cls, path, desc]) => (
+                  <div key={path} style={{ marginBottom: 12 }}>
+                    [{d}] <span className={cls}>{s}</span> {path}{"\n"}<span style={{ color: "#555" }}>    {desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ RESEARCH ============ */}
+      <section className="panel" id="research" style={{ background: "#000080", borderColor: "#0ff" }}>
+        <div className="panel-in">
+          <h2 className="sec-title" style={{ color: "#ff0", fontFamily: "Impact, sans-serif", letterSpacing: 1 }}>THE X-FILES: HE OPENED THE NETWORK TAB 👽</h2>
+          <p className="sec-sub" style={{ color: "#fff" }}>Most people read SEO news. Aquib does his own digging, and sometimes it ends up in the news.</p>
+          <div className="folders">
+            {RESEARCH.map(([i, tag, t, d]) => (
+              <div className="folder" key={t}>
+                <div className="ico">📁{i}</div>
+                <span className="tag">{tag}</span>
+                <h4>{t}</h4>
+                <p>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ BUILDS ============ */}
+      <section className="wrap" id="builds" style={{ margin: "28px auto" }}>
+        <div className="win98">
+          <div className="tbar"><span>🛠️ C:\AQUIB\TOOLS_HE_BUILT_INSTEAD_OF_BUYING</span><span className="tb-btns"><span>_</span><span>□</span><span>✕</span></span></div>
+          <div className="wbody">
+            <table className="dltable">
+              <thead><tr><th>Name</th><th>Description</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                {BUILDS.map(([n, d, s]) => (
+                  <tr key={n}>
+                    <td className="name">💾 {n}</td><td>{d}</td><td>{s}</td>
+                    <td><button className="w98" onClick={() => openWin("sorry")}>Download</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p style={{ font: "11px Arial", marginTop: 8 }}>{BUILDS.length} object(s) · 0 bytes free · Downloads disabled, for everyone&apos;s safety.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ LETTER ============ */}
+      <section className="wrap" style={{ margin: "28px auto" }}>
+        <div className="win98 letter98">
+          <div className="tbar"><span>✉️ A message from Aquib</span><span className="tb-btns"><span>✕</span></span></div>
+          <div className="wbody">
+            <p>Hello dear hiring manager!!</p>
+            <p>You could have got a PDF. You still can (top right, or the green button). But SEO is half evidence and half persuasion, so I made you something to poke at instead.</p>
+            <p>Under the raccoon, I care about the boring, load-bearing stuff: render parity, redirect maps that don&apos;t leak, schema that parses, content that answers the question first, and numbers that end in leads and revenue.</p>
+            <p>If your site went through the ER and you winced a little, that&apos;s a good conversation to have.</p>
+            <p><b>Regards, Aquib</b> 👍 <i>(SEO, GEO, AEO, and now apparently webmaster)</i></p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FAQ ============ */}
+      <section className="panel stripes-cyan" id="faq">
+        <div className="panel-in">
+          <h2 className="sec-title wordart gold">Frequently Avoided Questions</h2>
+          <p className="sec-sub">Click a question. Nothing bad will happen. Probably.</p>
+          <div className="faq">
+            {FAQ.map(([q, a]) => (
+              <details key={q}><summary>{q}</summary><p>{a}</p></details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FINAL ============ */}
+      <section className="final" id="hire">
+        <div className="badge" style={{ display: "inline-block", background: "#ffef5c", border: "3px dashed red", padding: "6px 14px", fontWeight: "bold", transform: "rotate(-2deg)" }}>🏆 VOTED BEST SEO PERSON BY HIS OWN WEBSITE 🏆</div>
+        <h2 className="wordart" style={{ marginTop: 16 }}>VERY GOOD<br />SEO PERSON.</h2>
+        <p style={{ fontSize: 20, fontWeight: "bold", marginTop: 14 }}>Email gets the fastest reply. The CV is a real PDF, not an .exe. I promise.</p>
+        <div className="ctas">
+          <a className="gbtn" href={`mailto:${EMAIL}?subject=${encodeURIComponent("Saw your SEO Emergency Room. Let's talk.")}`}>✉️ EMAIL AQUIB SO HE GETS HIRED</a>
+          <a className="gbtn blue" href={LINKEDIN} target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a>
+          <a className="gbtn pink" href={CV} download>CV.PDF ↓</a>
+        </div>
+        <p className="times" style={{ marginTop: 18 }}>{EMAIL} · Delhi NCR</p>
+      </section>
+
+      <footer className="footer">
+        <div>done by Aquib © 2018–2026* · <a href="#top">Return to position #1</a> · <a href="#" onClick={(e) => { e.preventDefault(); toast("Unsubscribed from good rankings. Bold move."); }}>Unsubscribe from good rankings</a></div>
+        <div style={{ fontSize: 11, marginTop: 4 }}>*indexed eventually. Best viewed in Netscape Navigator at 800×600.</div>
+        <div className="webring">[ <a href="#top">◀ prev</a> | <a href="#er">SEO Doctors Webring</a> | <a href="#hire">next ▶</a> ]</div>
       </footer>
 
       <Popups />

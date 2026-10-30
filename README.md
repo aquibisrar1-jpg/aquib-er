@@ -1,7 +1,7 @@
 # Aquib's SEO Emergency Room™®!!!
 
 A chaotic, interactive "hire me" site for Aquib Israr (SEO / GEO / AEO).
-Built with Next.js 14 (App Router). It has one serverless API route, `/api/checkup`, which runs the live site audit.
+Built with Next.js 14 (but it looks like 1999) (App Router). It has one serverless API route, `/api/checkup`, which runs the live site audit.
 
 ## Deploy to Vercel (about 5 minutes)
 
@@ -34,5 +34,7 @@ npm run dev       # http://localhost:3000
 - `public/Aquib_Israr_CV.pdf`: replace this to update the CV download
 
 ## Notes
+- Design: 90s GeoCities style, with Comic Sans, Times New Roman, Impact, a Windows 98 taskbar and popups. Comic Neue and Anton load only as fallbacks on phones that don't have Comic Sans or Impact (Android).
+- Sound effects are on by default. They start after the visitor's first click, because browsers block sound before that. The taskbar has a SOUND ON/OFF toggle.
 - The checkup fetches only the homepage, robots.txt, sitemap.xml and llms.txt. It blocks private and localhost addresses, caps responses at 2 MB, times out after 9 seconds, and stores nothing.
 - Some sites (Cloudflare-protected ones, for example) may block the checker's requests. The ER shows a funny error when that happens.
