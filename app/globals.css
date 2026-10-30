@@ -502,3 +502,38 @@ html.blackhat body { animation: shake .25s linear 6; }
   .hdr-btns .gbtn { font-size: 12px; padding: 6px 9px; }
   .vb-in { font-size: 12px; }
 }
+
+/* ---- hero: hurry button + NEW panel ---- */
+.hurry { display: inline-block; margin-top: 18px; background: #fff; border: 3px dashed #000; padding: 8px 14px; font: bold 16px "Comic Sans MS", "Comic Neue", cursive; box-shadow: 4px 4px 0 #000; position: relative; z-index: 3; }
+.hurry u { color: #00e; }
+.hurry:hover { background: #ffff9a; }
+.newpanel { position: relative; z-index: 3; max-width: 760px; margin: 22px auto 0; background: #000080; border: 5px ridge #0ff; padding: 10px; color: #fff; box-shadow: 8px 8px 0 #f0f; }
+.newpanel-t { font: bold 16px "Courier New", monospace; color: #ff0; margin-bottom: 8px; }
+.newpanel-g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.newpanel-g a, .newpanel-g button { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #000; background: #c0c0c0; border: 3px outset #fff; padding: 8px 6px; font: 14px Arial, sans-serif; text-align: center; }
+.newpanel-g a:active, .newpanel-g button:active { border-style: inset; }
+.newpanel-g a:hover, .newpanel-g button:hover { background: #ffff9a; }
+.newpanel-g b { font: bold 15px "Comic Sans MS", "Comic Neue", cursive; color: #00e; text-decoration: underline; }
+.newpanel-g small { font-size: 11px; color: #333; }
+.newpanel-f { font: 12px "Courier New", monospace; color: #39ff14; margin-top: 8px; }
+
+/* ---- 30-second version ---- */
+.q30-back { position: fixed; inset: 0; z-index: 125; background: rgba(0,0,0,.5); display: grid; place-items: center; padding: 14px; }
+.q30 { width: min(560px, 100%); max-height: 90vh; overflow: auto; }
+.q30 .wbody { background: #fff; font-family: Arial, Helvetica, sans-serif; }
+.q30-timer { font: 11px "Courier New", monospace; color: #c00; text-align: right; }
+.q30 h2 { font: bold 30px "Comic Sans MS", "Comic Neue", cursive; color: #000080; }
+.q30-role { font: bold 14px Arial; margin: 2px 0 10px; }
+.q30 ul { padding-left: 18px; margin: 0 0 14px; font-size: 14px; line-height: 1.45; }
+.q30 li { margin: 6px 0; }
+.q30-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.q30-stay { margin-top: 14px; width: 100%; }
+
+/* ---- 88x31 badges ---- */
+.badges88 { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+.badges88 img { display: block; image-rendering: pixelated; }
+
+@media (max-width: 760px) {
+  .newpanel-g { grid-template-columns: 1fr 1fr; }
+  .hurry { font-size: 14px; }
+}

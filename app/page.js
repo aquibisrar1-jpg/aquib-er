@@ -9,6 +9,7 @@ import Vision, { setVision } from "../components/Vision";
 import BlackHat, { blackHat } from "../components/BlackHat";
 import IndexCV from "../components/IndexCV";
 import HireDialog from "../components/HireDialog";
+import Quick30, { openQuick } from "../components/Quick30";
 
 const EMAIL = "aquibisrar1@gmail.com";
 const LINKEDIN = "https://www.linkedin.com/in/aquibisrar/";
@@ -117,9 +118,10 @@ export default function Home() {
         <a className="logo" href="#top">🔍 Aquib<sup>™®!!!</sup></a>
         <nav>
           <a href="#er">fix_my_site.exe</a>
-          <a href="#features">Features!!!</a>
+          <a href="#indexing">Index my CV!!!</a>
           <a href="#proof">Proof??</a>
-          <a href="#faq">Who did this??</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); blackHat(); }}>Don&apos;t click 😈</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); openQuick(); }}>⏱️ 30-sec version</a>
         </nav>
         <div className="hdr-btns">
           <button className="gbtn small yellow" onClick={() => setVision("googlebot")} title="See this page the way Google does">👁️ GOOGLEBOT VISION</button>
@@ -166,6 +168,20 @@ export default function Home() {
         <div className="ctas">
           <a className="gbtn" href="#er">✨ FIX MY RANKINGS ✨</a>
           <a className="gbtn pink" href="#hire">TAKE ME TO REAL AQUIB ↗</a>
+        </div>
+        <button className="hurry" onClick={() => openQuick()}>⏱️ In a hurry? <u>Get Aquib in 30 seconds</u> (no raccoons)</button>
+
+        <div className="newpanel">
+          <div className="newpanel-t"><span className="newgif">NEW!</span> THINGS TO CLICK ON THIS WEBSITE <span className="newgif">NEW!</span></div>
+          <div className="newpanel-g">
+            <a href="#er">🚑 <b>Diagnose YOUR site</b><small>live checkup + printable prescription</small></a>
+            <button onClick={() => setVision("googlebot")}>👁️ <b>Googlebot Vision</b><small>see this page as Google does</small></button>
+            <button onClick={() => setVision("chatgpt")}>✦ <b>ChatGPT Vision</b><small>this page as an AI Overview</small></button>
+            <a href="#indexing">📄 <b>Index my CV</b><small>every SEO&apos;s nightmare</small></a>
+            <a href="#raccoon">🦝 <b>Catch the raccoon</b><small>15-second GEO game</small></a>
+            <button onClick={() => blackHat()}>😈 <b>Black Hat Mode</b><small>do not click. seriously.</small></button>
+          </div>
+          <div className="newpanel-f">psst: try ↑ ↑ ↓ ↓ ← → ← → B A</div>
         </div>
         <div>
           <span className="fakecheck" role="checkbox" aria-checked={notBot} tabIndex={0}
@@ -414,6 +430,14 @@ export default function Home() {
       <footer className="footer">
         <div>done by Aquib © 2018–2026* · <a href="#top">Return to position #1</a> · <a href="#" onClick={(e) => { e.preventDefault(); toast("Unsubscribed from good rankings. Bold move."); }}>Unsubscribe from good rankings</a></div>
         <div style={{ fontSize: 11, marginTop: 4 }}>*indexed eventually. Best viewed in Netscape Navigator at 800×600.</div>
+        <div className="badges88">
+          <img src="/badges/netscape.svg" width="88" height="31" alt="Best viewed in Netscape 4.0" />
+          <img src="/badges/notepad.svg" width="88" height="31" alt="Made with Notepad.exe" />
+          <img src="/badges/white-hat.svg" width="88" height="31" alt="100% white hat SEO" />
+          <img src="/badges/schema.svg" width="88" height="31" alt="Valid JSON-LD structured data" />
+          <img src="/badges/ai-crawlers.svg" width="88" height="31" alt="AI crawlers welcome" />
+          <img src="/badges/y2k.svg" width="88" height="31" alt="Y2K compliant" />
+        </div>
         <div style={{ marginTop: 8 }}><button className="bh-link" onClick={() => blackHat()}>😈 rank faster (do not click)</button></div>
         <div className="webring">[ <a href="#top">◀ prev</a> | <a href="#er">SEO Doctors Webring</a> | <a href="#hire">next ▶</a> ]</div>
       </footer>
@@ -421,6 +445,7 @@ export default function Home() {
       <Popups />
       <Vision />
       <BlackHat />
+      <Quick30 />
     </>
   );
 }

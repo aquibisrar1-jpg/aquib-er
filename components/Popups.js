@@ -252,6 +252,7 @@ Sitemap: linkedin.com/in/aquibisrar`}</div>
             <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new CustomEvent("aq-vision", { detail: "googlebot" })); }}>👁️ Googlebot Vision</a></li>
             <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new CustomEvent("aq-vision", { detail: "chatgpt" })); }}>✦ ChatGPT Vision</a></li>
             <li><a href="#indexing" onClick={() => setStartOpen(false)}>🔍 Index my CV</a></li>
+            <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new Event("aq-quick")); }}>⏱️ 30-second version</a></li>
             <li><a href="#top" onClick={(e) => { e.preventDefault(); setStartOpen(false); window.dispatchEvent(new Event("aq-blackhat")); }}>😈 Black Hat Mode</a></li>
           </ul>
         </div>

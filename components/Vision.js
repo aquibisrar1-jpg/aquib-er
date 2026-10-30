@@ -55,7 +55,7 @@ export default function Vision() {
         words: text.split(" ").length,
         links: document.querySelectorAll("a[href]").length,
         h: ["h1", "h2", "h3"].map((t) => `${document.querySelectorAll(t).length} ${t.toUpperCase()}`).join(" · "),
-        schema: [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => { try { return JSON.parse(s.textContent)["@type"]; } catch { return "broken"; } }).join(", "),
+        schema: [...document.querySelectorAll('script[type="application/ld+json"]')].flatMap((s) => { try { const j = JSON.parse(s.textContent); return j["@graph"] ? j["@graph"].map((n) => n["@type"]) : [j["@type"]]; } catch { return ["broken"]; } }).join(", "),
       });
       window.scrollTo({ top: 0 });
     }
@@ -89,9 +89,10 @@ export default function Vision() {
       {mode === "googlebot" && topSlot && createPortal(
         <pre className="gbot-only keep">{`<!-- Googlebot found this structured data. Aquib practises what he preaches. -->
 <script type="application/ld+json">
-{ "@type": "Person", "name": "Aquib Israr",
+{ "@graph": [ "ProfilePage", "WebSite",
+  { "@type": "Person", "name": "Aquib Israr",
   "jobTitle": "SEO Manager | GEO & AEO Specialist",
-  "knowsAbout": ["SEO", "GEO", "AEO", "Technical SEO", "Structured Data"] }
+  "knowsAbout": ["SEO", "GEO", "AEO", "Technical SEO", "Structured Data"] } ] }
 </script>`}</pre>,
         topSlot
       )}

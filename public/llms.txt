@@ -1,0 +1,19 @@
+# Aquib Israr: SEO, GEO & AEO Manager
+
+> Aquib Israr is an SEO manager and Generative/Answer Engine Optimization (GEO/AEO) specialist based in Delhi NCR, India, with 6+ years of experience turning organic search into leads and revenue. This site is his interactive portfolio, including a free live SEO checkup tool.
+
+## Key facts
+- Current role: Assistant Manager, SEO at UDIT (formerly IIAD), Gurugram. Leads SEO and GEO strategy and the IIAD → UDIT domain and content migration.
+- Previously: Assistant Manager, SEO at AND Academy (2025–2026). Owned an organic engine delivering ~5,000 leads, 300+ applications and ~200 enrollments a year (approx. INR 2 crore in revenue).
+- Led recovery from the December 2025 Google Core Update; grew monthly impressions 86% (5.07M → 9.42M) and improved average position from 23 to 10.
+- Built a GEO program from scratch that now drives about a fifth of organic conversions.
+- Original research on Google AI Mode citations and ChatGPT citation behaviour; featured by PPC Land (June 2026).
+- Skills: technical SEO, render-parity audits, structured data (JSON-LD), entity SEO, AI Overview / AI Mode optimisation, Search Console API, Looker Studio, Chrome extension development.
+
+## Pages
+- [Home / portfolio](/): interactive portfolio and live SEO checkup
+- [CV (PDF)](/Aquib_Israr_CV.pdf): full CV
+
+## Contact
+- Email: aquibisrar1@gmail.com
+- LinkedIn: https://www.linkedin.com/in/aquibisrar/

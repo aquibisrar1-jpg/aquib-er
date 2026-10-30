@@ -38,3 +38,14 @@ npm run dev       # http://localhost:3000
 - Sound effects are on by default. They start after the visitor's first click, because browsers block sound before that. The taskbar has a SOUND ON/OFF toggle.
 - The checkup fetches only the homepage, robots.txt, sitemap.xml and llms.txt. It blocks private and localhost addresses, caps responses at 2 MB, times out after 9 seconds, and stores nothing.
 - Some sites (Cloudflare-protected ones, for example) may block the checker's requests. The ER shows a funny error when that happens.
+
+## Microsoft Clarity (see how hiring managers use the site)
+1. clarity.microsoft.com → New project → website URL: your live address.
+2. Settings → Setup → copy the Project ID (looks like `abc12de34f`).
+3. Vercel → your project → Settings → Environment Variables → add
+   Name: `NEXT_PUBLIC_CLARITY_ID`  Value: your ID → Save.
+4. Deployments → ⋯ on the latest one → Redeploy. Clarity starts recording within ~2 hours.
+
+## Custom domain later?
+Add `NEXT_PUBLIC_SITE_URL` = `https://yourdomain.com` in Vercel environment variables (or edit `app/site.js`),
+so canonical, sitemap, robots.txt and the link preview all point to the new domain.
